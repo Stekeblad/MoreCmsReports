@@ -36,11 +36,14 @@ namespace Stekeblad.MoreCmsReports.Business
         private static string GetFilePath<T>()
         {
             string appDataPath = EPiServer.Framework.Configuration.EPiServerFrameworkSection.Instance.AppData.BasePath;
+            //if (!Directory.Exists($"{appDataPath}/MoreCmsReports"))
+            //    Directory.CreateDirectory($"{appDataPath}/MoreCmsReports");
             if (string.Equals(appDataPath, "app_data", StringComparison.OrdinalIgnoreCase))
             {
                 appDataPath = AppDomain.CurrentDomain.BaseDirectory + appDataPath;
             }
-            return $"{appDataPath}/MoreCmsReports/{typeof(T).Name}.json";
+            //return $"{appDataPath}/MoreCmsReports/{typeof(T).Name}.json";
+            return $"{appDataPath}/{typeof(T).Name}.json";
         }
     }
 }

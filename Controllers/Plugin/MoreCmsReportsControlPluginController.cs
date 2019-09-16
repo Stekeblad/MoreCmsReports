@@ -1,4 +1,5 @@
 ﻿using EPiServer.PlugIn;
+using Stekeblad.MoreCmsReports.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,15 @@ namespace Stekeblad.MoreCmsReports.Controllers.Plugin
         Area = PlugInArea.AdminConfigMenu,
         //UrlFromModuleFolder = "Views/MoreCmsReportsControlPlugin/Index",
         UrlFromModuleFolder = "MoreCmsReportsControlPlugin",
-        DisplayName = "Configure More Cms Reports"
+        DisplayName = "Configure MoreCmsReports"
     )]
     //[Authorize(Roles = "CmsAdmins, Administrators, WebAdmins")]
-    public class MoreCmsReportsCPluginController : Controller
+    public class MoreCmsReportsPluginController : Controller
     {
         public ActionResult Index()
         {
+            // Try to see if method is executed or errors accure before that happens
+            DataStorage.WriteObjectToFile<MoreCmsReportsPluginController>($"The Index method of {nameof(MoreCmsReportsPluginController)} was successfully invoked");
             return View();
         }
     }

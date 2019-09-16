@@ -12,7 +12,7 @@ using Stekeblad.MoreCmsReports.Business.DataCollectors;
 
 namespace Stekeblad.MoreCmsReports.Business.ScheduledJobs
 {
-    [ScheduledPlugIn(DisplayName = "GenerateMoreCmsReportsData")]
+    [ScheduledPlugIn(DisplayName = "Generate MoreCmsReports Data")]
     public class GenerateMoreCmsReportsData : ScheduledJobBase
     {
         private bool _stopSignaled;

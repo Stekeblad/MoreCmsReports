@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<configuration>
+  <episerver.shell>
+    <protectedModules>
+      <add name="MoreCmsReports">
+        <assemblies>
+          <add assembly="Stekeblad.MoreCmsReports" />
+        </assemblies>
+      </add>
+    </protectedModules>
+  </episerver.shell>
+</configuration>

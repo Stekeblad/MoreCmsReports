@@ -13,7 +13,7 @@ namespace Stekeblad.MoreCmsReports.Controllers.Plugin
     [GuiPlugIn(
         Area = PlugInArea.AdminConfigMenu,
         //UrlFromModuleFolder = "Views/MoreCmsReportsControlPlugin/Index",
-        UrlFromModuleFolder = "MoreCmsReportsControlPlugin",
+        UrlFromModuleFolder = "MoreCmsReportsPlugin",
         DisplayName = "Configure MoreCmsReports"
     )]
     //[Authorize(Roles = "CmsAdmins, Administrators, WebAdmins")]

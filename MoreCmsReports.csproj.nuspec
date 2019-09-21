@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>../MoreCmsReports.csproj</id>
+    <version>1.0.0</version>
+    <authors>Stekeblad</authors>
+    <owners>Stekeblad</owners>
+    <licenseUrl></licenseUrl>
+    <projectUrl>https://github.com/Stekeblad/MoreCmsReports</projectUrl>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Adds more reports to EPiServer report center (/cms/report)</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>EPiServer reports Stekeblad</tags>
+    <dependencies>
+      <dependency id="EPiServer.CMS.UI.Core" version="[11.0.0,12.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="modules\_protected\MoreCmsReports\**" target="content\modules\_protected\MoreCmsReports\" />"
+    <file src="web.config.transform" target="content" />
+  </files>
+</package>

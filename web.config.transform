@@ -2,7 +2,7 @@
 <configuration>
   <episerver.shell>
     <protectedModules>
-      <add name="MoreCmsReports">
+      <add name="Stekeblad.MoreCmsReports">
         <assemblies>
           <add assembly="Stekeblad.MoreCmsReports" />
         </assemblies>

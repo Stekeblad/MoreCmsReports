@@ -167,7 +167,9 @@
     <Compile Include="Business\DataStorage.cs" />
     <Compile Include="Business\ScheduledJobs\GenerateMoreCmsReportsData.cs" />
     <Compile Include="Business\temp.cs" />
+    <Compile Include="Controllers\Plugin\AccessRightsAnalyserPluginController.cs" />
     <Compile Include="Controllers\Plugin\MoreCmsReportsControlPluginController.cs" />
+    <Compile Include="Controllers\Plugin\SuperSearchPluginController.cs" />
     <Compile Include="DataModels\DataModelParts\ContentReportItemWithType.cs" />
     <Compile Include="DataModels\DataModelParts\ContentReportItem.cs" />
     <Compile Include="DataModels\InaccessibleContentLocatorData.cs" />
@@ -180,11 +182,13 @@
     <None Include="modules\_protected\MoreCmsReports\module.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="modules\_protected\MoreCmsReports\Views\web.config" />
     <None Include="packages.config" />
     <None Include="modules\_protected\MoreCmsReports\Views\MoreCmsReportsControlPlugin\Index.cshtml" />
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\Reports\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

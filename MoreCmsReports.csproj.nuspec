@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>../MoreCmsReports.csproj</id>
-    <version>1.0.0</version>
+    <id>Stekeblad.MoreCmsReports</id>
+    <version>0.1.0</version>
     <authors>Stekeblad</authors>
     <owners>Stekeblad</owners>
-    <licenseUrl></licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/Stekeblad/MoreCmsReports</projectUrl>
-    <iconUrl></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds more reports to EPiServer report center (/cms/report)</description>
     <releaseNotes>Initial release</releaseNotes>
@@ -18,7 +17,15 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="modules\_protected\MoreCmsReports\**" target="content\modules\_protected\MoreCmsReports\" />"
+    <file src="modules\_protected\MoreCmsReports\**" target="content\modules\_protected\Stekeblad.MoreCmsReports\" />
     <file src="web.config.transform" target="content" />
+
+    <!--<file src="bin\Release\Stekeblad.MoreCmsReports.dll" target="lib\net461" />
+    <file src="bin\Release\Stekeblad.MoreCmsReports.dll" target="lib\net462" />
+    <file src="bin\Release\Stekeblad.MoreCmsReports.dll" target="lib\net47" />-->
+
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net461" />
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net462" />
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net47" />
   </files>
 </package>

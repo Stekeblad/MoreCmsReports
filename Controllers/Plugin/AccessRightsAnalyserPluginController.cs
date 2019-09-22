@@ -8,17 +8,16 @@ using System.Web.Mvc;
 
 namespace Stekeblad.MoreCmsReports.Controllers.Plugin
 {
-    //[GuiPlugIn(
-    //    Area = PlugInArea.AdminConfigMenu,
-    //    //UrlFromModuleFolder = "Views/MoreCmsReportsControlPlugin/Index",
-    //    //UrlFromModuleFolder = "MoreCmsReportsControlPlugin",
-    //    DisplayName = "MoreCmsReports Access Rights Analyser"
-    //)]
-    //public class AccessRightsAnalyserPluginController : Controller
-    //{
-    //    public ActionResult Index()
-    //    {
-    //        return View();
-    //    }
-    //}
+    [GuiPlugIn(
+        Area = PlugInArea.AdminConfigMenu,
+        UrlFromModuleFolder = "AccessRightsAnalyserPlugin",
+        DisplayName = "MoreCmsReports Access Rights Analyser"
+    )]
+    public class AccessRightsAnalyserPluginController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
 }

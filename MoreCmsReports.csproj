@@ -170,6 +170,7 @@
     <Compile Include="Controllers\Plugin\AccessRightsAnalyserPluginController.cs" />
     <Compile Include="Controllers\Plugin\MoreCmsReportsControlPluginController.cs" />
     <Compile Include="Controllers\Plugin\SuperSearchPluginController.cs" />
+    <Compile Include="Controllers\Reports\InaccessibleContentReportController.cs" />
     <Compile Include="DataModels\DataModelParts\ContentReportItemWithType.cs" />
     <Compile Include="DataModels\DataModelParts\ContentReportItem.cs" />
     <Compile Include="DataModels\InaccessibleContentLocatorData.cs" />
@@ -179,17 +180,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="License.txt" />
     <None Include="modules\_protected\MoreCmsReports\module.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="modules\_protected\MoreCmsReports\Views\InaccessibleContentReport\Index.cshtml" />
     <None Include="modules\_protected\MoreCmsReports\Views\web.config" />
     <None Include="packages.config" />
-    <None Include="modules\_protected\MoreCmsReports\Views\MoreCmsReportsControlPlugin\Index.cshtml" />
+    <None Include="modules\_protected\MoreCmsReports\Views\MoreCmsReportsPlugin\Index.cshtml" />
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\Reports\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="modules\_protected\MoreCmsReports\Views\AccessRightsAnalyserPlugin\Index.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>cd $(ProjectDir)nuget
+nuget.exe pack  ..\$(ProjectFileName).nuspec
+copy *.nupkg ..\..\..\..\MyLocalNugetRepo</PostBuildEvent>
+  </PropertyGroup>
 </Project>

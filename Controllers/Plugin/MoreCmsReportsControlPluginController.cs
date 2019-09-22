@@ -12,9 +12,7 @@ namespace Stekeblad.MoreCmsReports.Controllers.Plugin
 {
     [GuiPlugIn(
         Area = PlugInArea.AdminConfigMenu,
-        //UrlFromModuleFolder = "Views/MoreCmsReportsControlPlugin/Index",
-        //UrlFromModuleFolder = "MoreCmsReportsPlugin",
-        Url = "~/EPiServer/MoreCmsReports/Views/MoreCmsReportsPlugin/Index",
+        UrlFromModuleFolder = "MoreCmsReportsPlugin",
         DisplayName = "Configure MoreCmsReports"
     )]
     //[Authorize(Roles = "CmsAdmins, Administrators, WebAdmins")]
@@ -22,8 +20,6 @@ namespace Stekeblad.MoreCmsReports.Controllers.Plugin
     {
         public ActionResult Index()
         {
-            // Try to see if method is executed or errors accure before that happens
-            DataStorage.WriteObjectToFile<MoreCmsReportsPluginController>($"The Index method of {nameof(MoreCmsReportsPluginController)} was successfully invoked");
             return View();
         }
     }

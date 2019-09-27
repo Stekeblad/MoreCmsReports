@@ -1,4 +1,6 @@
 ﻿using EPiServer.PlugIn;
+using Stekeblad.MoreCmsReports.Business;
+using Stekeblad.MoreCmsReports.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,9 @@ namespace Stekeblad.MoreCmsReports.Controllers.Reports
     {
         public ActionResult Index()
         {
-            return View();
+            InaccessibleContentLocatorData model = DataStorage.ReadObjectFromFile<InaccessibleContentLocatorData>();
+
+            return View(model);
         }
     }
 }

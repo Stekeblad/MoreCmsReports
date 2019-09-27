@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Stekeblad.MoreCmsReports.DataModels;
+
+@model InaccessibleContentLocatorData
+
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,6 +10,11 @@
     <title>Inaccessible Content Report</title>
 </head>
 <body>
-    <h1>Hooray, the view is working in the report center aswell!</h1>
+    <h1>Inaccessible Content</h1>
+
+    @foreach (TypeUsageCount thing in Model.TypesOverview)
+    {
+        <p>@thing.TypeName</p>
+    }
 </body>
 </html>

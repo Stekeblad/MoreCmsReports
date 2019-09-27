@@ -25,7 +25,10 @@
     <file src="bin\Release\Stekeblad.MoreCmsReports.dll" target="lib\net47" />-->
 
     <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net461" />
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.pdb" target="lib\net461" />
     <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net462" />
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.pdb" target="lib\net462" />
     <file src="bin\Debug\Stekeblad.MoreCmsReports.dll" target="lib\net47" />
+    <file src="bin\Debug\Stekeblad.MoreCmsReports.pdb" target="lib\net47" />
   </files>
 </package>

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -199,7 +200,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)nuget
-nuget.exe pack  ..\$(ProjectFileName).nuspec
-copy *.nupkg ..\..\..\..\MyLocalNugetRepo</PostBuildEvent>
+nuget.exe pack  ..\$(ProjectFileName).nuspec -Symbols -SymbolPackageFormat snupkg
+copy *.nupkg ..\..\..\..\MyLocalNugetRepo
+copy *.snupkg ..\..\..\..\MyLocalNugetRepo</PostBuildEvent>
   </PropertyGroup>
 </Project>

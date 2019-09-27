@@ -40,7 +40,7 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
                 onStatusChanged($"Counting blocks and pages of type {tajp.Name}...");
 
                 // Exclude system types
-                if (tajp.Name.StartsWith("sys"))
+                if (tajp.Name.StartsWith("Sys"))
                     continue;
 
                 if (!_contentModelUsage.IsContentTypeUsed(tajp))
@@ -60,7 +60,7 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
 
                     int usagesBeforeVisitorFilter = allUsages.Count(); // count all existing pages/blocks
 
-                    if (allUsages.First() is BlockData)
+                    if (allUsages.First() is BlockData || allUsages.First() is MediaData)
                     {
                         List<IContent> allUsagesList = allUsages.ToList();
                         new FilterPublished().Filter(allUsagesList);
@@ -98,9 +98,9 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
                         {
                             TypeName = tajp.Name,
                             UnfilteredUsages = usagesBeforeVisitorFilter,
-                               UnavailableUsages = unavailableUsages
+                            UnavailableUsages = unavailableUsages
                         });
-                        foreach(IContent unusedContent in allFilteredUsages)
+                        foreach (IContent unusedContent in allFilteredUsages)
                         {
                             if (!results.TypeDetails.ContainsKey(tajp.Name))
                                 results.TypeDetails.Add(tajp.Name, new List<ContentReportItem>());
@@ -119,7 +119,7 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
 
         private bool IsBlockVisibleToVisitor(ContentReference contRef)
         {
-            // TODO potential optimization, cache block ID and if it is visible true/false, can have big effect on high reuse or deep nesting
+            // TODO potential optimization, cache block ID and if it is visible true/false, can have big effect when high reuse and deep nesting of blocks
             if (ContentReference.IsNullOrEmpty(contRef))
                 return false;
 

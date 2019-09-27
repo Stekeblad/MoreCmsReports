@@ -13,7 +13,7 @@ namespace Stekeblad.MoreCmsReports.Business
     /// </summary>
     public static class DataStorage
     {
-        public static void WriteObjectToFile<T>(object dataObject)
+        public static void WriteObjectToFile<T>(T dataObject)
         {
             JsonSerializer serializer = new JsonSerializer();
 
@@ -24,25 +24,22 @@ namespace Stekeblad.MoreCmsReports.Business
             }
         }
 
-        public static object ReadObjectFromFile<T>()
+        public static T ReadObjectFromFile<T>()
         {
-            using (TextReader tr = new StreamReader(GetFilePath<T>()))
-            using (JsonTextReader reader = new JsonTextReader(tr))
+            using (StreamReader file = File.OpenText(GetFilePath<T>()))
             {
-                return JsonConvert.DeserializeObject<T>(reader.ToString());
+                JsonSerializer serializer = new JsonSerializer();
+                return (T)serializer.Deserialize(file, typeof(T));
             }
         }
 
         private static string GetFilePath<T>()
         {
             string appDataPath = EPiServer.Framework.Configuration.EPiServerFrameworkSection.Instance.AppData.BasePath;
-            //if (!Directory.Exists($"{appDataPath}/MoreCmsReports"))
-            //    Directory.CreateDirectory($"{appDataPath}/MoreCmsReports");
+
             if (string.Equals(appDataPath, "app_data", StringComparison.OrdinalIgnoreCase))
-            {
                 appDataPath = AppDomain.CurrentDomain.BaseDirectory + appDataPath;
-            }
-            //return $"{appDataPath}/MoreCmsReports/{typeof(T).Name}.json";
+
             return $"{appDataPath}/{typeof(T).Name}.json";
         }
     }

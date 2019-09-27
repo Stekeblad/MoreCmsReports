@@ -10,11 +10,85 @@
     <title>Inaccessible Content Report</title>
 </head>
 <body>
-    <h1>Inaccessible Content</h1>
+    <h1 id="top">Inaccessible Content</h1>
 
-    @foreach (TypeUsageCount thing in Model.TypesOverview)
-    {
-        <p>@thing.TypeName</p>
+    <p>
+        The Inaccessible Content report lists pages, blocks, images and other files that does not appear to be accessible
+        to site visitors. Never delete anything without trying to verify if it can safetly be deleted as some special case
+        implementations on your site may not work with this analysis and no automatic scan is perfect.
+    </p>
+    <p>
+        You can quickly find content in episerver by copying the content id from below. When you are in edit mode
+        you will see something like "epi.cms.contentdata:///5" in the url, replace the number (in this case 5) with
+        the copied ID and press enter to jump to that content.
+    </p>
+
+    @{
+        List<TypeUsageCount> typesWithUnusedContent = Model.TypesOverview.Where(type => type.UnavailableUsages != 0).ToList();
+        List<TypeUsageCount> typesWithNoUsages = Model.TypesOverview.Where(type => type.UnfilteredUsages == 0).ToList();
+        List<TypeUsageCount> typesWithoutIssues = Model.TypesOverview.Where(type => type.UnfilteredUsages != 0 && type.UnavailableUsages == 0).ToList();
     }
+
+    <h2>Types with unused content</h2>
+    <ul>
+        @foreach (TypeUsageCount typeUsage in typesWithUnusedContent)
+        {
+            <li><a href="#@typeUsage.TypeName">@typeUsage.TypeName</a> (@typeUsage.UnavailableUsages out of @typeUsage.UnfilteredUsages usages inaccessible)</li>
+        }
+    </ul>
+
+    @foreach (string typeKey in Model.TypeDetails.Keys)
+    {
+        <h3 id="@typeKey">@typeKey</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Content Name</th>
+                    <th>Content Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ContentReportItem reportItem in Model.TypeDetails[typeKey])
+                {
+                    <tr>
+                        <td>@reportItem.ContentName</td>
+                        <td>@reportItem.ContentLinkId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <a href="#top">Back to page top</a>
+        <br />
+    }
+
+
+    @if (typesWithNoUsages.Count > 0)
+    {
+        <br />
+        <h2>Types that is not used at all</h2>
+        <p>The following types may be safe to delete by the site developers but could also have some other purpose</p>
+        <ul>
+            @foreach (TypeUsageCount typeUsage in typesWithNoUsages)
+            {
+                <li>@typeUsage.TypeName</li>
+            }
+        </ul>
+    }
+
+    @if (typesWithoutIssues.Count > 0)
+    {
+        <br />
+        <h2>Types that passed</h2>
+        <p>This report has no issues to report on for the following types</p>
+        <ul>
+            @foreach (TypeUsageCount typeUsage in typesWithoutIssues)
+            {
+                <li>@typeUsage.TypeName</li>
+            }
+        </ul>
+    }
+
 </body>
 </html>

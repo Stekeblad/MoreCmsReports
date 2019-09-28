@@ -13,7 +13,7 @@
     <copyright>Copyright 2019</copyright>
     <tags>EPiServer reports Stekeblad</tags>
     <dependencies>
-      <dependency id="EPiServer.CMS.UI.Core" version="[11.0.0,12.0.0)" />
+      <dependency id="EPiServer.CMS.UI.Core" version="[11.1.0,)" />
     </dependencies>
   </metadata>
   <files>

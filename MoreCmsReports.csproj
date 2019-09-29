@@ -182,7 +182,6 @@
     <Compile Include="DataModels\DataModelParts\ContentReportItem.cs" />
     <Compile Include="DataModels\InaccessibleContentLocatorData.cs" />
     <Compile Include="DataModels\PagesNotVisibleInMenusData.cs" />
-    <Compile Include="DataModels\DataModelParts\TypeUsageCount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

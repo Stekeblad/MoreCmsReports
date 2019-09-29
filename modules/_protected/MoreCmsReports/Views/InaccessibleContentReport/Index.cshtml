@@ -23,69 +23,70 @@
         the copied ID and press enter to jump to that content.
     </p>
 
-    @{
-        List<TypeUsageCount> typesWithUnusedContent = Model.TypesOverview.Where(type => type.UnavailableUsages != 0).ToList();
-        List<TypeUsageCount> typesWithNoUsages = Model.TypesOverview.Where(type => type.UnfilteredUsages == 0).ToList();
-        List<TypeUsageCount> typesWithoutIssues = Model.TypesOverview.Where(type => type.UnfilteredUsages != 0 && type.UnavailableUsages == 0).ToList();
-    }
+    <h2>Types with inaccessible content</h2>
 
-    <h2>Types with unused content</h2>
-    <ul>
-        @foreach (TypeUsageCount typeUsage in typesWithUnusedContent)
+    @if (Model.TypesWithInaccessibleContent.Count == 0)
+    {
+        <p>Nothing was found, you do a great job managing the content on this site!</p>
+    }
+    else
+    {
+        <p>Click on type name to jump to its location in the report</p>
+        <ul>
+            @foreach (TypeAccessabilityReport typeReport in Model.TypesWithInaccessibleContent)
+            {
+                <li><a href="#@typeReport.TypeName">@typeReport.TypeName</a> (@typeReport.InaccessibleUsages out of @typeReport.TotalUsages usages inaccessible)</li>
+            }
+        </ul>
+
+        foreach (TypeAccessabilityReport typeReport in Model.TypesWithInaccessibleContent)
         {
-            <li><a href="#@typeUsage.TypeName">@typeUsage.TypeName</a> (@typeUsage.UnavailableUsages out of @typeUsage.UnfilteredUsages usages inaccessible)</li>
-        }
-    </ul>
+            <h3 id="@typeReport.TypeName">@typeReport.TypeName</h3>
 
-    @foreach (string typeKey in Model.TypeDetails.Keys)
-    {
-        <h3 id="@typeKey">@typeKey</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Content Name</th>
-                    <th>Content Id</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (ContentReportItem reportItem in Model.TypeDetails[typeKey])
-                {
+            <table>
+                <thead>
                     <tr>
-                        <td>@reportItem.ContentName</td>
-                        <td>@reportItem.ContentLinkId</td>
+                        <th>Content Name</th>
+                        <th>Content Id</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <br />
-        <a href="#top">Back to page top</a>
-        <br />
+                </thead>
+                <tbody>
+                    @foreach (ContentReportItem reportItem in typeReport.Usages)
+                    {
+                        <tr>
+                            <td>@reportItem.ContentName</td>
+                            <td>@reportItem.ContentLinkId</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <a href="#top">Back to page top</a>
+            <br />
+        }
     }
 
 
-    @if (typesWithNoUsages.Count > 0)
+    @if (Model.TypesWithNoUsages.Count > 0)
     {
-        <br />
         <h2>Types that is not used at all</h2>
         <p>The following types may be safe to delete by the site developers but could also have some other purpose</p>
         <ul>
-            @foreach (TypeUsageCount typeUsage in typesWithNoUsages)
+            @foreach (TypeAccessabilityReport typeReport in Model.TypesWithNoUsages)
             {
-                <li>@typeUsage.TypeName</li>
+                <li>@typeReport.TypeName</li>
             }
         </ul>
     }
 
-    @if (typesWithoutIssues.Count > 0)
+    @if (Model.TypesWithoutIssues.Count > 0)
     {
-        <br />
         <h2>Types that passed</h2>
         <p>This report has no issues to report on for the following types</p>
         <ul>
-            @foreach (TypeUsageCount typeUsage in typesWithoutIssues)
+            @foreach (TypeAccessabilityReport typeReport in Model.TypesWithoutIssues)
             {
-                <li>@typeUsage.TypeName</li>
+                <li>@typeReport.TypeName</li>
             }
         </ul>
     }

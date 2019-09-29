@@ -7,8 +7,6 @@ using Stekeblad.MoreCmsReports.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stekeblad.MoreCmsReports.Business.DataCollectors
 {
@@ -32,7 +30,7 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
 
             InaccessibleContentLocatorData results = new InaccessibleContentLocatorData();
 
-            foreach (ContentType tajp in _contentTypeRepository.List()) // get all page/block types
+            foreach (ContentType tajp in _contentTypeRepository.List()) // get all page/block types, TODO: ability to configure excluded types?
             {
                 if (stopSignal)
                     return "aborted";
@@ -43,77 +41,82 @@ namespace Stekeblad.MoreCmsReports.Business.DataCollectors
                 if (tajp.Name.StartsWith("Sys"))
                     continue;
 
+                TypeAccessabilityReport typeReport = new TypeAccessabilityReport()
+                {
+                    TypeName = tajp.Name
+                };
+
                 if (!_contentModelUsage.IsContentTypeUsed(tajp))
                 {
-                    // not used at all
-                    results.TypesOverview.Add(new TypeUsageCount() {
-                        TypeName = tajp.Name,
-                        UnfilteredUsages = 0,
-                        UnavailableUsages = 0
-                    });
+                    typeReport.InaccessibleUsages = 0;
+                    typeReport.TotalUsages = 0;
+                    results.TypesWithNoUsages.Add(typeReport);
+
+                    continue;
                 }
-                else
+
+                IEnumerable<IContent> allUsages = _contentModelUsage.ListContentOfContentType(tajp) // get all usages
+                    .Select(usage => _contentRepository.Get<IContent>(usage.ContentLink.ToReferenceWithoutVersion())) // pick latest version
+                    .Distinct(); // exclude duplicates
+
+                int usagesBeforeVisitorFilter = allUsages.Count(); // count all existing pages/blocks
+                typeReport.TotalUsages = usagesBeforeVisitorFilter;
+
+                if (allUsages.First() is BlockData || allUsages.First() is MediaData)
                 {
-                    IEnumerable<IContent> allUsages = _contentModelUsage.ListContentOfContentType(tajp) // get all usages
-                        .Select(usage => _contentRepository.Get<IContent>(usage.ContentLink.ToReferenceWithoutVersion())) // pick latest version
-                        .Distinct(); // exclude duplicates
+                    List<IContent> allUsagesList = allUsages.ToList();
+                    new FilterPublished().Filter(allUsagesList);
+                    int InaccessibleUsages = 0;
 
-                    int usagesBeforeVisitorFilter = allUsages.Count(); // count all existing pages/blocks
-
-                    if (allUsages.First() is BlockData || allUsages.First() is MediaData)
+                    foreach (IContent block in allUsagesList) // check every block if it is used anywhere and if the pages/blocks its used in is used anywhere (recursive)
                     {
-                        List<IContent> allUsagesList = allUsages.ToList();
-                        new FilterPublished().Filter(allUsagesList);
-                        int unavailabeUsages = 0;
-                        foreach (IContent block in allUsagesList) // check every block if it is used anywhere and if the pages/blocks its used in is used anywhere (recursive)
+                        IEnumerable<ReferenceInformation> usedOn = _contentRepository.GetReferencesToContent(block.ContentLink, false);
+                        if (!usedOn.Any() || !usedOn.Any(usage => IsBlockVisibleToVisitor(usage.OwnerID)))
                         {
-                            IEnumerable<ReferenceInformation> usedOn = _contentRepository.GetReferencesToContent(block.ContentLink, false);
-                            if (!usedOn.Any() || !usedOn.Any(usage => IsBlockVisibleToVisitor(usage.OwnerID)))
+                            // Block is not used or not visible, record it
+                            InaccessibleUsages++;
+                            typeReport.Usages.Add(new ContentReportItem()
                             {
-                                // Block is not used or not visible, record it
-                                unavailabeUsages++;
-                                if (!results.TypeDetails.ContainsKey(tajp.Name))
-                                    results.TypeDetails.Add(tajp.Name, new List<ContentReportItem>());
-                                results.TypeDetails[tajp.Name].Add(new ContentReportItem()
-                                {
-                                    ContentLinkId = block.ContentLink.ID,
-                                    ContentName = block.Name
-                                });
-                            }
-                        }
-
-                        results.TypesOverview.Add(new TypeUsageCount()
-                        {
-                            TypeName = tajp.Name,
-                            UnfilteredUsages = usagesBeforeVisitorFilter,
-                            UnavailableUsages = unavailabeUsages
-                        });
-                    }
-                    else if (allUsages.First() is PageData)
-                    {
-                        // remove all pages from allUsages that passes the FilterForVisitors filter
-                        IEnumerable<IContent> allFilteredUsages = allUsages.Except(FilterForVisitor.Filter(allUsages));
-                        int unavailableUsages = allFilteredUsages.Count(); // recount
-                        results.TypesOverview.Add(new TypeUsageCount()
-                        {
-                            TypeName = tajp.Name,
-                            UnfilteredUsages = usagesBeforeVisitorFilter,
-                            UnavailableUsages = unavailableUsages
-                        });
-                        foreach (IContent unusedContent in allFilteredUsages)
-                        {
-                            if (!results.TypeDetails.ContainsKey(tajp.Name))
-                                results.TypeDetails.Add(tajp.Name, new List<ContentReportItem>());
-                            results.TypeDetails[tajp.Name].Add(new ContentReportItem()
-                            {
-                                ContentLinkId = unusedContent.ContentLink.ID,
-                                ContentName = unusedContent.Name
+                                ContentLinkId = block.ContentLink.ID,
+                                ContentName = block.Name
                             });
                         }
                     }
+                    typeReport.InaccessibleUsages = InaccessibleUsages;
+                    if (InaccessibleUsages == 0)
+                        results.TypesWithoutIssues.Add(typeReport);
+                    else
+                        results.TypesWithInaccessibleContent.Add(typeReport);
+                }
+                else if (allUsages.First() is PageData page)
+                {
+                    // If type does not have a template, count the number of usages but do not analyse the content on them
+                    if (!page.HasTemplate())
+                    {
+                        typeReport.InaccessibleUsages = typeReport.TotalUsages;
+                        results.TypesWithoutIssues.Add(typeReport);
+                        continue;
+                    }
+                    // remove all pages from allUsages that passes the FilterForVisitors filter
+                    IEnumerable<IContent> allFilteredUsages = allUsages.Except(FilterForVisitor.Filter(allUsages));
+                    typeReport.InaccessibleUsages = allFilteredUsages.Count();
+
+                    foreach (IContent unusedContent in allFilteredUsages)
+                    {
+                        typeReport.Usages.Add(new ContentReportItem()
+                        {
+                            ContentLinkId = unusedContent.ContentLink.ID,
+                            ContentName = unusedContent.Name
+                        });
+                    }
+
+                    if (typeReport.InaccessibleUsages == 0)
+                        results.TypesWithoutIssues.Add(typeReport);
+                    else
+                        results.TypesWithInaccessibleContent.Add(typeReport);
                 }
             }
-            DataStorage.WriteObjectToFile<InaccessibleContentLocatorData>(results);
+            DataStorage.WriteObjectToFile(results);
             return "I am done, doobie damm damm";
         }
 

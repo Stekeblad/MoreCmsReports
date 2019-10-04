@@ -184,17 +184,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="modules\_protected\MoreCmsReports\ClientResources\style.css" />
+    <Content Include="modules\_protected\Stekeblad.MoreCmsReports\ClientResources\style.css" />
     <None Include="app.config" />
     <Content Include="License.txt" />
-    <None Include="modules\_protected\MoreCmsReports\module.config">
+    <None Include="modules\_protected\Stekeblad.MoreCmsReports\module.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="modules\_protected\MoreCmsReports\Views\InaccessibleContentReport\Index.cshtml" />
-    <None Include="modules\_protected\MoreCmsReports\Views\Shared\_Layout.cshtml" />
-    <None Include="modules\_protected\MoreCmsReports\Views\web.config" />
+    <None Include="modules\_protected\Stekeblad.MoreCmsReports\Views\InaccessibleContentReport\Index.cshtml" />
+    <None Include="modules\_protected\Stekeblad.MoreCmsReports\Views\Shared\_Layout.cshtml" />
+    <None Include="modules\_protected\Stekeblad.MoreCmsReports\Views\web.config" />
     <None Include="packages.config" />
-    <None Include="modules\_protected\MoreCmsReports\Views\MoreCmsReportsPlugin\Index.cshtml" />
+    <None Include="modules\_protected\Stekeblad.MoreCmsReports\Views\MoreCmsReportsPlugin\Index.cshtml" />
     <None Include="web.config.transform" />
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +203,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)
-copy bin/Stekeblad.MoreCms.Reports.bin ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.bin
-copy bin/Stekeblad.MoreCms.Reports.pdb ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.pdb
-delete  modules\_protected\Stekeblad.MoreCmsReports\ -Force
+copy bin\Debug\Stekeblad.MoreCms.Reports.dll ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.dll
+copy bin\Debug\Stekeblad.MoreCms.Reports.pdb ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.pdb
+remove modules\_protected\Stekeblad.MoreCmsReports\ -Force
 copy ..\..\PureAlloyMvc\modules\_protected\Stekeblad.MoreCmsReports\*.* modules\_protected\Stekeblad.MoreCmsReports\
 
 cd $(ProjectDir)nuget

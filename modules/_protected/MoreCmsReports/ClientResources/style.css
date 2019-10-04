@@ -1,0 +1,29 @@
+﻿ul.alternate-color {
+    border: 2px solid #dddddd;
+    list-style: none;
+    padding-left: 0px;
+}
+
+
+    ul.alternate-color li {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 40px
+    }
+
+        ul.alternate-color li a {
+            width: 100%;
+            display: inline-block;
+        }
+
+        ul.alternate-color li:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+h3 {
+    margin-top: 25px;
+}
+
+h2 {
+    margin-top: 35px;
+}

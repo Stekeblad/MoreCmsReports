@@ -2,14 +2,21 @@
 
 @model InaccessibleContentLocatorData
 
-<!DOCTYPE html>
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Inaccessible Content Report";
+    EPiServer.Core.ContentReference startPage = EPiServer.Core.ContentReference.StartPage;
+    string baseEditLink = EPiServer.Editor.PageEditing.GetEditUrl(startPage);
+    string matchThis = ":///" + startPage.ID.ToString();
+}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Inaccessible Content Report</title>
-</head>
-<body>
+@functions {
+    // Help function because new ContentReferense(int) appeared to be slow
+    string GetEditLink(int id, string linkBase, string pattern)
+    {
+        return linkBase.Replace(pattern, ":///" + id.ToString());
+    }
+}
     <h1 id="top">Inaccessible Content</h1>
 
     <p>
@@ -18,9 +25,7 @@
         implementations on your site may not work with this analysis and no automatic scan is perfect.
     </p>
     <p>
-        You can quickly find content in episerver by copying the content id from below. When you are in edit mode
-        you will see something like "epi.cms.contentdata:///5" in the url, replace the number (in this case 5) with
-        the copied ID and press enter to jump to that content.
+        You can quickly get to edit mode for content by clicking on its name in the lists below. It will be opened in a new tab.
     </p>
 
     <h2>Types with inaccessible content</h2>
@@ -43,26 +48,15 @@
         {
             <h3 id="@typeReport.TypeName">@typeReport.TypeName</h3>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Content Name</th>
-                        <th>Content Id</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (ContentReportItem reportItem in typeReport.Usages)
-                    {
-                        <tr>
-                            <td>@reportItem.ContentName</td>
-                            <td>@reportItem.ContentLinkId</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <ul class="alternate-color">
+                @foreach (ContentReportItem reportItem in typeReport.Usages)
+                {
+                    <li><a target="_blank"
+                           href="@GetEditLink(reportItem.ContentLinkId, baseEditLink, matchThis)">@reportItem.ContentName</a>
+                }
+            </ul>
             <br />
             <a href="#top">Back to page top</a>
-            <br />
         }
     }
 
@@ -90,6 +84,3 @@
             }
         </ul>
     }
-
-</body>
-</html>

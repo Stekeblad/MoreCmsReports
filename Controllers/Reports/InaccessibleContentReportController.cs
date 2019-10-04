@@ -16,6 +16,7 @@ namespace Stekeblad.MoreCmsReports.Controllers.Reports
         DisplayName = "Inaccessible Content",
         UrlFromModuleFolder = "InaccessibleContentReport"
         )]
+    [Authorize(Roles = "CmsAdmins, Administrators, WebAdmins, CmsEditors, WebEditors")]
     public class InaccessibleContentReportController : Controller
     {
         public ActionResult Index()

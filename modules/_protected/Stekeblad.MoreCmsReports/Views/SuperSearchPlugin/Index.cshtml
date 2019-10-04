@@ -1,0 +1,23 @@
+﻿@using Stekeblad.MoreCmsReports.DataModels;
+
+@model SuperSearchFilterData
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Super Search";
+}
+
+<ul>
+    @foreach(KeyValuePair<string, ReflectedContentType> pagetypes in Model.PageTypes)
+    {
+    <li>
+        @pagetypes.Key
+        <ul>
+            @foreach (KeyValuePair<string, ReflectedPropertyInfo> property in pagetypes.Value.Properties)
+            {
+                <li style="padding-left: 80px;">@property.Key</li>
+            }
+        </ul>
+    </li>
+    }
+</ul>

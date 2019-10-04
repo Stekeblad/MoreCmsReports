@@ -181,6 +181,7 @@
     <Compile Include="DataModels\DataModelParts\ContentReportItem.cs" />
     <Compile Include="DataModels\InaccessibleContentLocatorData.cs" />
     <Compile Include="DataModels\PagesNotVisibleInMenusData.cs" />
+    <Compile Include="DataModels\SuperSearchFilterData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,10 +204,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)
-copy bin\Debug\Stekeblad.MoreCms.Reports.dll ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.dll
-copy bin\Debug\Stekeblad.MoreCms.Reports.pdb ..\..\PureAlloyMvc\bin\Stekeblad.MoreCmsReports.pdb
-remove modules\_protected\Stekeblad.MoreCmsReports\ -Force
-copy ..\..\PureAlloyMvc\modules\_protected\Stekeblad.MoreCmsReports\*.* modules\_protected\Stekeblad.MoreCmsReports\
+copy bin\Debug\Stekeblad.MoreCmsReports.dll ..\PureAlloyMvc\bin\
+copy bin\Debug\Stekeblad.MoreCmsReports.pdb ..\PureAlloyMvc\bin\
 
 cd $(ProjectDir)nuget
 nuget.exe pack  ..\$(ProjectFileName).nuspec -Symbols -SymbolPackageFormat snupkg

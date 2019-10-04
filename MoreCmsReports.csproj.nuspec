@@ -17,7 +17,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="modules\_protected\MoreCmsReports\**" target="content\modules\_protected\Stekeblad.MoreCmsReports\" />
+    <file src="modules\_protected\Stekeblad.MoreCmsReports\**" target="content\modules\_protected\Stekeblad.MoreCmsReports\" />
     <file src="web.config.transform" target="content" />
 
     <!--<file src="bin\Release\Stekeblad.MoreCmsReports.dll" target="lib\net461" />

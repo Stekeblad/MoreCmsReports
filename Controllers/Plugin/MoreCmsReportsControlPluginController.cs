@@ -15,7 +15,7 @@ namespace Stekeblad.MoreCmsReports.Controllers.Plugin
         UrlFromModuleFolder = "MoreCmsReportsPlugin",
         DisplayName = "Configure MoreCmsReports"
     )]
-    //[Authorize(Roles = "CmsAdmins, Administrators, WebAdmins")]
+    [Authorize(Roles = "CmsAdmins, Administrators, WebAdmins")]
     public class MoreCmsReportsPluginController : Controller
     {
         public ActionResult Index()

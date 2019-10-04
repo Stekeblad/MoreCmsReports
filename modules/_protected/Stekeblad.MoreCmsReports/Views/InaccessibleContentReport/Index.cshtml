@@ -48,14 +48,14 @@
         {
             <h3 id="@typeReport.TypeName">@typeReport.TypeName</h3>
 
-            <ul class="alternate-color">
+            <ul>
                 @foreach (ContentReportItem reportItem in typeReport.Usages)
                 {
                     <li><a target="_blank"
                            href="@GetEditLink(reportItem.ContentLinkId, baseEditLink, matchThis)">@reportItem.ContentName</a>
+                    </li>
                 }
             </ul>
-            <br />
             <a href="#top">Back to page top</a>
         }
     }
